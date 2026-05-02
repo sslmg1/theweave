@@ -1,0 +1,31 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": "빛과 선 사이에서 — 김민아 작가 인터뷰",
+      "category": "작가 인터뷰",
+      "date": "2026-04-15",
+      "thumbnail": "https://images.unsplash.com/photo-1578301978162-7aae4d755744?w=800&q=80",
+      "excerpt": "10년간 한국화와 현대미술의 경계에서 작업해온 김민아 작가의 스튜디오를 방문했다. 붓 한 자루로 시대를 담아내는 그의 이야기.",
+      "slug": "artist-interview-kim-mina"
+    },
+    {
+      "id": 2,
+      "title": "2026 서울 갤러리 위크 — 놓치면 안 될 전시 5",
+      "category": "전시 리뷰",
+      "date": "2026-04-02",
+      "thumbnail": "https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=800&q=80",
+      "excerpt": "이번 봄, 서울 전역에서 열리는 갤러리 위크의 주목할 전시들을 골랐다. 놓치면 후회할 다섯 가지 이유.",
+      "slug": "seoul-gallery-week-2026"
+    },
+    {
+      "id": 3,
+      "title": "집 안에 예술을 들이는 법 — 아트 라이프스타일 가이드",
+      "category": "아트 라이프",
+      "date": "2026-03-20",
+      "thumbnail": "https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?w=800&q=80",
+      "excerpt": "처음 작품을 구매하는 분들을 위한 실용적인 가이드. 공간에 맞는 작품 고르는 법부터 조명 설치까지.",
+      "slug": "art-lifestyle-guide"
+    }
+  ]
+}

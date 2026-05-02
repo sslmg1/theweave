@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THEWEAVE 더위브 — 예술이 일상이 되는 순간</title>
+  <meta name="description" content="17년 갤러리 경력 기반의 아트컴퍼니. 작가와 갤러리를 위한 통합 아트 서비스, 더위브.">
+  <!-- OG Tags — TODO: 도메인 확정 후 URL/이미지 교체 필요 -->
+  <meta property="og:title" content="THEWEAVE 더위브 — 예술이 일상이 되는 순간">
+  <meta property="og:description" content="17년 갤러리 경력 기반의 아트컴퍼니. 작가와 갤러리를 위한 통합 아트 서비스.">
+  <meta property="og:type" content="website">
+  <!-- <meta property="og:url" content="https://TODO.theweave.co.kr"> -->
+  <!-- <meta property="og:image" content="https://TODO.theweave.co.kr/og-image.jpg"> -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="hero-page">
+
+  <!-- ====================================================
+       NAVIGATION
+       ==================================================== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner container">
+      <a href="index.html" class="nav-logo">THEWEAVE</a>
+      <button class="nav-hamburger" id="nav-hamburger"
+              aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="#magazine">Magazine</a></li>
+        <li><a href="contact.html" class="nav-cta">문의하기</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ====================================================
+         HERO
+         ==================================================== -->
+    <section class="hero">
+      <div class="hero-inner container">
+        <p class="hero-label">THEWEAVE 더위브</p>
+        <h1 class="hero-title" style="font-size:clamp(32px,5.5vw,64px);white-space:nowrap;">
+          예술이 일상이 되는 순간
+        </h1>
+        <p class="hero-sub">
+          작가는 작업만, 갤러리는 기획에 집중할 수 있도록.<br>
+          더위브가 나머지를 책임집니다.
+        </p>
+        <div class="hero-actions">
+          <a href="#magazine" class="btn btn-primary">매거진 보기</a>
+          <a href="services.html" class="btn btn-ghost">서비스 알아보기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         MAGAZINE (JSON-rendered)
+         ==================================================== -->
+    <section class="magazine" id="magazine">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">MAGAZINE</span>
+          <h2 class="section-title">작가와 예술을 잇는 이야기</h2>
+          <p class="section-sub">작가 인터뷰, 전시 리뷰, 아트 라이프스타일</p>
+        </div>
+        <div class="magazine-grid" id="magazine-grid">
+          <!-- JS로 data/magazine.json을 렌더링합니다 -->
+        </div>
+        <div class="section-footer reveal">
+          <a href="#" class="btn btn-outline">더 보기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SERVICES PREVIEW
+         ==================================================== -->
+    <section class="services-preview" id="services">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-label">SERVICES</span>
+          <h2 class="section-title">더위브의 서비스</h2>
+          <p class="section-sub">작가와 갤러리가 본업에 집중할 수 있도록 지원합니다</p>
+        </div>
+        <div class="services-grid">
+
+          <!-- 아트너 ARTNER -->
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span class="service-badge">출시 예정 (2026 하반기~)</span>
+            <h3>아트너 ARTNER</h3>
+            <p>작품 관리, 홍보, 운송까지 — 독립 작가를 위한 원스톱 통합 서비스. 작가님은 작업에만 집중하세요.</p>
+            <a href="services.html#artner" class="service-card-link">
+              자세히 보기
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 작가 매니지먼트 -->
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <h3>작가 매니지먼트</h3>
+            <p>전시 기획, 갤러리 연결, 홍보 전략 수립까지. 작가 커리어 전반을 함께 설계하는 파트너십.</p>
+            <a href="services.html#management" class="service-card-link">
+              자세히 보기
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 아트 컨설팅 -->
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <h3>아트 컨설팅</h3>
+            <p>기업 및 개인 대상 공간 큐레이션, 작품 구매 가이드, 아트 투자 자문. 17년 경력의 전문 안목.</p>
+            <a href="services.html#consulting" class="service-card-link">
+              자세히 보기
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- 웹매거진 -->
+          <div class="service-card reveal">
+            <div class="service-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+            </div>
+            <h3>웹매거진</h3>
+            <p>작가 인터뷰, 전시 리뷰, 아트 라이프스타일 콘텐츠. 예술과 일상을 잇는 미술 미디어 채널.</p>
+            <a href="services.html#magazine" class="service-card-link">
+              자세히 보기
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         CTA BANNER
+         ==================================================== -->
+    <section class="cta-banner">
+      <div class="container">
+        <p class="cta-banner-label reveal">CONTACT</p>
+        <h2 class="cta-banner-title reveal">
+          더위브와 함께<br>시작할 준비가 됐나요?
+        </h2>
+        <p class="cta-banner-sub reveal">
+          서비스 출시 소식을 가장 먼저 받고 싶다면,<br>
+          지금 바로 문의를 남겨주세요.
+        </p>
+        <div class="cta-banner-actions reveal">
+          <a href="contact.html" class="btn btn-primary">문의하기</a>
+          <a href="services.html" class="btn btn-ghost">서비스 보기</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="footer-brand-name">THEWEAVE</p>
+          <p class="footer-brand-tagline">
+            예술이 일상이 되는 순간.<br>
+            작가와 갤러리를 위한 아트컴퍼니.
+          </p>
+          <!-- TODO: SNS 링크 교체 필요 -->
+          <div class="footer-social">
+            <a href="https://www.instagram.com/theweave_official/" aria-label="인스타그램" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="유튜브">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>서비스</h4>
+          <ul class="footer-links">
+            <li><a href="services.html#artner">아트너 ARTNER</a></li>
+            <li><a href="services.html#management">작가 매니지먼트</a></li>
+            <li><a href="services.html#consulting">아트 컨설팅</a></li>
+            <li><a href="services.html#magazine">웹매거진</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>회사</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="about.html#team">팀 소개</a></li>
+            <li><a href="#magazine">Magazine</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>연락처</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:info@theweave.co.kr">info@theweave.co.kr</a></li>
+            <li><span style="color:rgba(255,255,255,0.55);font-size:13px;">서울시 중구 한강대로 416 14층 106-01호</span></li>
+            <li><a href="tel:01063334928" style="color:rgba(255,255,255,0.55);font-size:13px;">010-6333-4928</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2026 THEWEAVE 더위브. All rights reserved.</p>
+        <nav class="footer-legal" aria-label="법적 고지">
+          <a href="#">개인정보처리방침</a>
+          <a href="#">이용약관</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
