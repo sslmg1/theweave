@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 — THEWEAVE</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:    #E8722A;
+      --orange-dk: #c45e1e;
+      --black:     #000;
+      --white:     #fff;
+      --gray-700:  #555;
+      --gray-500:  #888;
+      --gray-200:  #ddd;
+      --gray-100:  #f0f0f0;
+      --gray-50:   #f8f8f8;
+      --nav-h:     60px;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
+                   'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: var(--gray-50);
+      color: var(--black);
+      min-height: 100vh;
+      word-break: keep-all;
+    }
+
+    /* ─────────────── LOGIN ─────────────── */
+    #screen-login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .login-logo {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 36px;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .login-desc {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .login-hint {
+      font-size: 12px;
+      color: var(--gray-500);
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+
+    .login-hint a { color: var(--orange); }
+
+    #login-error {
+      font-size: 13px;
+      color: #e53e3e;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    /* ─────────────── FORM ELEMENTS ─────────────── */
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      color: var(--gray-700);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-200);
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--black);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus { border-color: var(--black); }
+
+    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    /* ─────────────── BUTTONS ─────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 11px 22px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .btn-primary  { background: var(--black);  color: var(--white); }
+    .btn-primary:hover { background: #222; }
+
+    .btn-orange   { background: var(--orange); color: var(--white); }
+    .btn-orange:hover { background: var(--orange-dk); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray-700);
+      border: 1px solid var(--gray-200);
+    }
+    .btn-ghost:hover { border-color: var(--black); color: var(--black); }
+
+    .btn-danger {
+      background: transparent;
+      color: #e53e3e;
+      border: 1px solid #fecaca;
+    }
+    .btn-danger:hover { background: #fff5f5; }
+
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-full { width: 100%; justify-content: center; }
+    .btn-sm   { padding: 7px 14px; font-size: 12px; }
+
+    /* ─────────────── NAV ─────────────── */
+    #screen-main { display: none; }
+
+    .admin-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      gap: 16px;
+    }
+
+    .admin-nav-logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      flex: 1;
+    }
+
+    .admin-nav-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .admin-nav-site {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .admin-nav-site:hover { color: rgba(255,255,255,0.8); }
+
+    .admin-nav-logout {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.65);
+      font-family: inherit;
+      font-size: 12px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .admin-nav-logout:hover { border-color: rgba(255,255,255,0.6); color: var(--white); }
+
+    /* ─────────────── CONTENT ─────────────── */
+    .admin-content {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .section-count {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 3px;
+    }
+
+    /* ─────────────── ARTICLE LIST ─────────────── */
+    .article-list {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+    }
+
+    .article-item {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--gray-100);
+      transition: background 0.15s;
+    }
+    .article-item:last-child { border-bottom: none; }
+    .article-item:hover { background: var(--gray-50); }
+
+    .article-thumb {
+      width: 72px;
+      height: 52px;
+      object-fit: cover;
+      display: block;
+      background: var(--gray-100);
+    }
+
+    .article-thumb-placeholder {
+      width: 72px;
+      height: 52px;
+      background: var(--gray-100);
+    }
+
+    .article-info { min-width: 0; }
+
+    .article-title {
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 5px;
+    }
+
+    .article-meta {
+      font-size: 12px;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-cat {
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .article-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    /* ─────────────── MODAL ─────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+    .modal-overlay.is-open { display: flex; align-items: flex-start; justify-content: center; }
+
+    .modal-card {
+      background: var(--white);
+      width: 100%;
+      max-width: 560px;
+      padding: 36px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    #thumb-preview {
+      margin-top: 8px;
+      height: 80px;
+      display: none;
+      background: var(--gray-100);
+    }
+    #thumb-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .req { color: var(--orange); margin-left: 2px; }
+
+    /* ─────────────── STATES ─────────────── */
+    .loading-state, .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 14px;
+      color: var(--gray-500);
+    }
+
+    .empty-state p { margin-bottom: 20px; }
+
+    /* ─────────────── TOAST ─────────────── */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      padding: 13px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+      max-width: 320px;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.success { background: var(--black); color: var(--white); }
+    #toast.error   { background: #e53e3e;      color: var(--white); }
+
+    /* ─────────────── RESPONSIVE ─────────────── */
+    @media (max-width: 640px) {
+      .admin-nav { padding: 0 16px; }
+      .admin-nav-badge, .admin-nav-site { display: none; }
+      .admin-content { padding: 24px 16px 60px; }
+      .article-item { grid-template-columns: 1fr auto; }
+      .article-thumb, .article-thumb-placeholder { display: none; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .login-card { padding: 36px 24px; }
+      #toast { right: 16px; bottom: 16px; left: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN ══════════════ -->
+<div id="screen-login">
+  <div class="login-card">
+    <p class="login-logo">THEWEAVE</p>
+    <h1 class="login-title">관리자 로그인</h1>
+    <p class="login-desc">
+      GitHub Personal Access Token으로 로그인하면<br>
+      매거진 콘텐츠를 관리할 수 있습니다.
+    </p>
+    <div class="form-group">
+      <label for="token-input">GITHUB TOKEN<span class="req">*</span></label>
+      <input type="password" id="token-input"
+             placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    </div>
+    <p id="login-error"></p>
+    <button class="btn btn-primary btn-full" id="login-btn">시작하기</button>
+    <p class="login-hint">
+      토큰 발급: GitHub → Settings → Developer settings →<br>
+      Personal access tokens → Fine-grained tokens<br>
+      권한: <strong>Contents (Read and write)</strong> · 저장소: <strong>theweave</strong>
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="screen-main">
+  <nav class="admin-nav">
+    <span class="admin-nav-logo">THEWEAVE</span>
+    <span class="admin-nav-badge">ADMIN</span>
+    <a class="admin-nav-site" href="index.html" target="_blank">사이트 보기 ↗</a>
+    <button class="admin-nav-logout" id="logout-btn">로그아웃</button>
+  </nav>
+
+  <div class="admin-content">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">매거진 관리</h2>
+        <p class="section-count" id="article-count"></p>
+      </div>
+      <button class="btn btn-orange" id="add-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <line x1="12" y1="4" x2="12" y2="20"/><line x1="4" y1="12" x2="20" y2="12"/>
+        </svg>
+        새 글 작성
+      </button>
+    </div>
+
+    <div id="article-list-wrap">
+      <div class="loading-state">불러오는 중…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FORM MODAL ══════════════ -->
+<div class="modal-overlay" id="modal-form" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <h2 class="modal-title" id="modal-title">새 글 작성</h2>
+
+    <div class="form-group">
+      <label for="f-title">제목<span class="req">*</span></label>
+      <input type="text" id="f-title" placeholder="글 제목을 입력하세요">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="f-category">카테고리<span class="req">*</span></label>
+        <select id="f-category">
+          <option value="">선택해 주세요</option>
+          <option value="작가 인터뷰">작가 인터뷰</option>
+          <option value="전시 리뷰">전시 리뷰</option>
+          <option value="아트 라이프">아트 라이프</option>
+          <option value="뉴스">뉴스</option>
+          <option value="칼럼">칼럼</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="f-date">날짜<span class="req">*</span></label>
+        <input type="date" id="f-date">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="f-thumbnail">썸네일 URL</label>
+      <input type="url" id="f-thumbnail" placeholder="https://example.com/image.jpg">
+      <div id="thumb-preview"><img id="thumb-img" src="" alt="미리보기"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="f-excerpt">요약<span class="req">*</span></label>
+      <textarea id="f-excerpt" placeholder="2–3줄 요약을 입력하세요" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="f-slug">URL 슬러그 <span style="font-weight:400;letter-spacing:0;">(비워두면 자동 생성)</span></label>
+      <input type="text" id="f-slug" placeholder="예: artist-interview-kim-mina">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modal-cancel">취소</button>
+      <button class="btn btn-primary" id="modal-save">저장하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TOAST ══════════════ -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   THEWEAVE Admin
+   ============================================================ */
+
+const REPO    = 'sslmg1/theweave';
+const FILE    = 'data/magazine.json';
+const API_URL = `https://api.github.com/repos/${REPO}/contents/${FILE}`;
+
+let token    = '';
+let articles = [];
+let fileSHA  = '';
+let editId   = null;   // null = new, number = editing
+
+/* ── Shortcuts ── */
+const $  = id  => document.getElementById(id);
+const el = sel => document.querySelector(sel);
+
+/* ── Toast ── */
+let toastTimer;
+function toast(msg, type = 'success') {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className   = `show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = ''; }, 3200);
+}
+
+/* ── HTML escape ── */
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* ── Date helper ── */
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/* ── Slug ── */
+function toSlug(str) {
+  const latin = str.replace(/[가-힣ㄱ-ㅎㅏ-ㅣ]/g, '');
+  const slug  = latin.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+  return slug || 'article-' + Date.now();
+}
+
+/* ── Base64 (UTF-8 safe) ── */
+function b64Encode(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function b64Decode(str) {
+  return decodeURIComponent(escape(atob(str.replace(/\n/g, ''))));
+}
+
+/* ════ LOGIN ════ */
+$('login-btn').addEventListener('click', doLogin);
+$('token-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+function doLogin() {
+  const val = $('token-input').value.trim();
+  if (!val) { showLoginErr('토큰을 입력해주세요.'); return; }
+  token = val;
+  setLoginBusy(true);
+  fetchFile()
+    .then(({ sha, data }) => {
+      fileSHA  = sha;
+      articles = data.articles || [];
+      $('screen-login').style.display = 'none';
+      $('screen-main').style.display  = 'block';
+      renderList();
+    })
+    .catch(err => {
+      showLoginErr(err.message);
+      setLoginBusy(false);
+    });
+}
+
+function showLoginErr(msg) {
+  const e = $('login-error');
+  e.textContent   = msg;
+  e.style.display = 'block';
+}
+
+function setLoginBusy(on) {
+  $('login-btn').disabled    = on;
+  $('login-btn').textContent = on ? '확인 중…' : '시작하기';
+}
+
+/* ════ LOGOUT ════ */
+$('logout-btn').addEventListener('click', () => {
+  token    = '';
+  articles = [];
+  fileSHA  = '';
+  $('screen-main').style.display  = 'none';
+  $('screen-login').style.display = 'flex';
+  $('token-input').value          = '';
+  $('login-error').style.display  = 'none';
+  setLoginBusy(false);
+});
+
+/* ════ GITHUB API ════ */
+function ghHeaders(extra = {}) {
+  return {
+    'Authorization':       `Bearer ${token}`,
+    'Accept':              'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    ...extra
+  };
+}
+
+function fetchFile() {
+  return fetch(API_URL, { headers: ghHeaders() })
+    .then(res => {
+      if (res.status === 401) throw new Error('인증 실패: 토큰을 다시 확인해주세요.');
+      if (res.status === 404) throw new Error('파일을 찾을 수 없습니다. (data/magazine.json)');
+      if (!res.ok)            throw new Error(`오류 ${res.status}`);
+      return res.json();
+    })
+    .then(raw => ({
+      sha:  raw.sha,
+      data: JSON.parse(b64Decode(raw.content))
+    }));
+}
+
+function pushFile() {
+  const body = JSON.stringify({
+    message: `매거진 업데이트 (${new Date().toLocaleString('ko-KR')})`,
+    content: b64Encode(JSON.stringify({ articles }, null, 2)),
+    sha:     fileSHA
+  });
+  return fetch(API_URL, {
+    method:  'PUT',
+    headers: ghHeaders({ 'Content-Type': 'application/json' }),
+    body
+  })
+    .then(res => {
+      if (!res.ok) throw new Error('저장 실패');
+      return res.json();
+    })
+    .then(data => {
+      fileSHA = data.content.sha;
+    });
+}
+
+/* ════ RENDER ════ */
+function renderList() {
+  const wrap = $('article-list-wrap');
+  $('article-count').textContent = `총 ${articles.length}개`;
+
+  if (!articles.length) {
+    wrap.innerHTML = `
+      <div class="empty-state">
+        <p>아직 등록된 글이 없습니다.</p>
+        <button class="btn btn-orange" onclick="openForm(null)">첫 글 작성하기</button>
+      </div>`;
+    return;
+  }
+
+  const sorted = [...articles].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  wrap.innerHTML = `<div class="article-list">${
+    sorted.map(a => `
+      <div class="article-item">
+        ${a.thumbnail
+          ? `<img class="article-thumb" src="${esc(a.thumbnail)}" alt=""
+               loading="lazy" onerror="this.outerHTML='<div class=article-thumb-placeholder></div>'">`
+          : `<div class="article-thumb-placeholder"></div>`
+        }
+        <div class="article-info">
+          <p class="article-title">${esc(a.title)}</p>
+          <div class="article-meta">
+            <span class="article-cat">${esc(a.category)}</span>
+            <span>${esc(a.date)}</span>
+          </div>
+        </div>
+        <div class="article-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openEdit(${a.id})">수정</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDelete(${a.id})">삭제</button>
+        </div>
+      </div>
+    `).join('')
+  }</div>`;
+}
+
+/* ════ FORM ════ */
+$('add-btn').addEventListener('click', () => openForm(null));
+$('modal-cancel').addEventListener('click', closeModal);
+$('modal-form').addEventListener('click', e => {
+  if (e.target === $('modal-form')) closeModal();
+});
+
+function openForm(article) {
+  editId = article ? article.id : null;
+  $('modal-title').textContent = article ? '글 수정' : '새 글 작성';
+  $('f-title').value     = article?.title     ?? '';
+  $('f-category').value  = article?.category  ?? '';
+  $('f-date').value      = article?.date       ?? todayStr();
+  $('f-thumbnail').value = article?.thumbnail  ?? '';
+  $('f-excerpt').value   = article?.excerpt   ?? '';
+  $('f-slug').value      = article?.slug      ?? '';
+  updateThumbPreview();
+  $('modal-form').classList.add('is-open');
+  setTimeout(() => $('f-title').focus(), 50);
+}
+
+function openEdit(id) {
+  const a = articles.find(x => x.id === id);
+  if (a) openForm(a);
+}
+
+function closeModal() {
+  $('modal-form').classList.remove('is-open');
+}
+
+$('f-thumbnail').addEventListener('input', updateThumbPreview);
+
+function updateThumbPreview() {
+  const url  = $('f-thumbnail').value.trim();
+  const wrap = $('thumb-preview');
+  if (url) {
+    $('thumb-img').src    = url;
+    wrap.style.display    = 'block';
+  } else {
+    wrap.style.display    = 'none';
+  }
+}
+
+/* ── Save ── */
+$('modal-save').addEventListener('click', async () => {
+  const title     = $('f-title').value.trim();
+  const category  = $('f-category').value;
+  const date      = $('f-date').value;
+  const excerpt   = $('f-excerpt').value.trim();
+  const thumbnail = $('f-thumbnail').value.trim();
+  const slug      = $('f-slug').value.trim() || toSlug(title);
+
+  if (!title)    { $('f-title').focus();    toast('제목을 입력해주세요.', 'error'); return; }
+  if (!category) { $('f-category').focus(); toast('카테고리를 선택해주세요.', 'error'); return; }
+  if (!date)     { $('f-date').focus();     toast('날짜를 입력해주세요.', 'error'); return; }
+  if (!excerpt)  { $('f-excerpt').focus();  toast('요약을 입력해주세요.', 'error'); return; }
+
+  const saveBtn = $('modal-save');
+  saveBtn.disabled    = true;
+  saveBtn.textContent = '저장 중…';
+
+  const prevArticles = JSON.parse(JSON.stringify(articles));
+
+  if (editId !== null) {
+    const idx = articles.findIndex(x => x.id === editId);
+    if (idx > -1) articles[idx] = { ...articles[idx], title, category, date, excerpt, slug, thumbnail };
+  } else {
+    const newId = articles.length ? Math.max(...articles.map(x => x.id)) + 1 : 1;
+    articles.push({ id: newId, title, category, date, excerpt, slug, thumbnail });
+  }
+
+  try {
+    await pushFile();
+    closeModal();
+    renderList();
+    toast(editId !== null ? '글이 수정되었습니다.' : '새 글이 등록되었습니다.');
+  } catch {
+    articles = prevArticles;
+    toast('저장에 실패했습니다. 다시 시도해주세요.', 'error');
+  } finally {
+    saveBtn.disabled    = false;
+    saveBtn.textContent = '저장하기';
+  }
+});
+
+/* ── Delete ── */
+function confirmDelete(id) {
+  const a = articles.find(x => x.id === id);
+  if (!a) return;
+  if (!confirm(`"${a.title}" 글을 삭제할까요?\n이 작업은 되돌릴 수 없습니다.`)) return;
+
+  const prev = [...articles];
+  articles   = articles.filter(x => x.id !== id);
+
+  pushFile()
+    .then(() => { renderList(); toast('글이 삭제되었습니다.'); })
+    .catch(() => {
+      articles = prev;
+      renderList();
+      toast('삭제에 실패했습니다.', 'error');
+    });
+}
+
+/* ── Keyboard shortcuts ── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
