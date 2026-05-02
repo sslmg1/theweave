@@ -728,9 +728,19 @@ body.hero-page .nav:not(.is-scrolled) .nav-hamburger span {
 }
 
 /* Instagram feed */
-.story-instagram { display: flex; flex-direction: column; gap: 14px; }
+.story-instagram {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-right: 24px;
+}
 
-behold-widget { display: block; width: 100%; }
+behold-widget {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  --behold-layout-rows: 1;
+}
 
 .story-instagram-link {
   display: inline-flex;
@@ -746,7 +756,7 @@ behold-widget { display: block; width: 100%; }
 
 /* Values */
 .values-section {
-  padding: var(--section-py) 0;
+  padding: 60px 0;
   background: var(--tw-white);
 }
 
