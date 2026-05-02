@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>매거진 — THEWEAVE 더위브</title>
+  <meta name="description" content="">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ====================================================
+       NAVIGATION
+       ==================================================== -->
+  <nav class="nav is-scrolled" id="nav">
+    <div class="nav-inner container">
+      <a href="index.html" class="nav-logo">THEWEAVE</a>
+      <button class="nav-hamburger" id="nav-hamburger"
+              aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="index.html#magazine">Magazine</a></li>
+        <li><a href="contact.html" class="nav-cta">문의하기</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div id="article-container">
+      <!-- JS로 렌더링됩니다 -->
+      <div class="article-loading">
+        <p>불러오는 중…</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="footer-brand-name">THEWEAVE</p>
+          <p class="footer-brand-tagline">
+            예술이 일상이 되는 순간.<br>
+            작가와 갤러리를 위한 아트컴퍼니.
+          </p>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/theweave_official/" aria-label="인스타그램" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="유튜브">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>서비스</h4>
+          <ul class="footer-links">
+            <li><a href="services.html#artner">아트너 ARTNER</a></li>
+            <li><a href="services.html#management">작가 매니지먼트</a></li>
+            <li><a href="services.html#consulting">아트 컨설팅</a></li>
+            <li><a href="services.html#magazine">웹매거진</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>회사</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About</a></li>
+            <li><a href="about.html#team">팀 소개</a></li>
+            <li><a href="index.html#magazine">Magazine</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>연락처</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:info@theweave.co.kr">info@theweave.co.kr</a></li>
+            <li><span style="color:rgba(255,255,255,0.55);font-size:13px;">서울시 중구 한강대로 416 14층 106-01호</span></li>
+            <li><a href="tel:01063334928" style="color:rgba(255,255,255,0.55);font-size:13px;">010-6333-4928</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2026 THEWEAVE 더위브. All rights reserved.</p>
+        <nav class="footer-legal" aria-label="법적 고지">
+          <a href="#">개인정보처리방침</a>
+          <a href="#">이용약관</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+  /* ============================================================
+     Magazine Article — dynamic rendering from magazine.json
+     ============================================================ */
+  (function initArticlePage() {
+    var container = document.getElementById('article-container');
+    if (!container) return;
+
+    var params = new URLSearchParams(window.location.search);
+    var slug   = params.get('slug');
+
+    if (!slug) {
+      window.location.href = 'index.html#magazine';
+      return;
+    }
+
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function formatDate(str) {
+      var d = new Date(str);
+      if (isNaN(d)) return str;
+      return d.getFullYear() + '.' +
+        String(d.getMonth() + 1).padStart(2, '0') + '.' +
+        String(d.getDate()).padStart(2, '0');
+    }
+
+    function renderParagraphs(content) {
+      if (!content) return '<p>콘텐츠를 준비 중입니다.</p>';
+      return content.split('\n\n')
+        .filter(function(p) { return p.trim(); })
+        .map(function(p) {
+          return '<p>' + esc(p.trim()).replace(/\n/g, '<br>') + '</p>';
+        })
+        .join('');
+    }
+
+    function renderArticle(a) {
+      document.title = a.title + ' — THEWEAVE 더위브';
+
+      var metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', a.excerpt || '');
+
+      container.innerHTML =
+        '<article>' +
+
+        /* ── Hero ── */
+        '<section class="article-hero">' +
+          '<div class="container">' +
+            '<a href="index.html#magazine" class="article-back-top">← 매거진</a>' +
+            '<span class="article-category">' + esc(a.category) + '</span>' +
+            '<h1 class="article-title">' + esc(a.title) + '</h1>' +
+            '<time class="article-date" datetime="' + esc(a.date) + '">' + formatDate(a.date) + '</time>' +
+          '</div>' +
+        '</section>' +
+
+        /* ── Feature Image ── */
+        (a.thumbnail
+          ? '<div class="article-feature-img"><img src="' + esc(a.thumbnail) + '" alt="' + esc(a.title) + '"></div>'
+          : '') +
+
+        /* ── Body ── */
+        '<section class="article-body">' +
+          '<div class="container">' +
+            '<div class="article-content">' +
+              renderParagraphs(a.content) +
+            '</div>' +
+            '<div class="article-footer-nav">' +
+              '<a href="index.html#magazine" class="article-back-btn">← 매거진으로 돌아가기</a>' +
+              '<a href="contact.html" class="btn btn-primary" style="font-size:13px;">더위브에 문의하기</a>' +
+            '</div>' +
+          '</div>' +
+        '</section>' +
+
+        '</article>';
+
+      /* Trigger scroll reveal for any .reveal elements */
+      container.querySelectorAll('.reveal').forEach(function(el) {
+        el.classList.add('is-visible');
+      });
+    }
+
+    function renderNotFound() {
+      container.innerHTML =
+        '<div class="article-not-found">' +
+          '<div class="container">' +
+            '<span class="section-label">404</span>' +
+            '<h1>글을 찾을 수 없습니다</h1>' +
+            '<p>요청하신 글이 존재하지 않거나 삭제되었습니다.</p>' +
+            '<a href="index.html#magazine" class="btn btn-primary" style="margin-top:32px;display:inline-flex;">매거진으로 돌아가기</a>' +
+          '</div>' +
+        '</div>';
+    }
+
+    function renderError() {
+      container.innerHTML =
+        '<div class="article-not-found">' +
+          '<div class="container">' +
+            '<span class="section-label">ERROR</span>' +
+            '<h1>콘텐츠를 불러올 수 없습니다</h1>' +
+            '<p>잠시 후 다시 시도해 주세요.</p>' +
+            '<a href="index.html#magazine" class="btn btn-primary" style="margin-top:32px;display:inline-flex;">매거진으로 돌아가기</a>' +
+          '</div>' +
+        '</div>';
+    }
+
+    fetch('./data/magazine.json')
+      .then(function(res) {
+        if (!res.ok) throw new Error('fetch failed');
+        return res.json();
+      })
+      .then(function(data) {
+        var article = (data.articles || []).find(function(a) { return a.slug === slug; });
+        if (!article) { renderNotFound(); return; }
+        renderArticle(article);
+      })
+      .catch(renderError);
+  })();
+  </script>
+</body>
+</html>

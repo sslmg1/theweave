@@ -148,7 +148,12 @@
         ? '<img src="' + esc(a.thumbnail) + '" alt="' + esc(a.title) + '" loading="lazy">'
         : '<div class="magazine-card-img-placeholder"></div>';
 
-      return '<article class="magazine-card reveal">' +
+      var href = a.slug
+        ? 'magazine-article.html?slug=' + encodeURIComponent(a.slug)
+        : '#';
+
+      return '<a href="' + href + '" class="magazine-card-link">' +
+        '<article class="magazine-card reveal">' +
         '<div class="magazine-card-img">' + imgHtml + '</div>' +
         '<span class="magazine-card-category">' + esc(a.category) + '</span>' +
         '<h3 class="magazine-card-title">' + esc(a.title) + '</h3>' +
@@ -156,7 +161,8 @@
         '<time class="magazine-card-date" datetime="' + esc(a.date) + '">' +
           formatDate(a.date) +
         '</time>' +
-        '</article>';
+        '</article>' +
+        '</a>';
     }).join('');
 
     // Attach IntersectionObserver to newly rendered cards

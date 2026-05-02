@@ -1205,3 +1205,153 @@ textarea.form-control {
   .btn { padding: 12px 24px; font-size: 13px; }
   .page-hero { padding: 110px 0 56px; }
 }
+
+/* ====================================================
+   MAGAZINE CARD LINK WRAPPER
+   ==================================================== */
+.magazine-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.magazine-card-link:hover .magazine-card {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.magazine-card-link:hover .magazine-card-title {
+  color: var(--tw-orange);
+}
+
+/* ====================================================
+   MAGAZINE ARTICLE PAGE
+   ==================================================== */
+
+/* Loading & error states */
+.article-loading,
+.article-not-found {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 0 80px;
+}
+.article-loading p {
+  font-size: 14px;
+  color: var(--tw-gray-500);
+}
+.article-not-found .container { text-align: center; }
+.article-not-found h1 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+  margin: 16px 0 12px;
+}
+.article-not-found p {
+  font-size: 15px;
+  color: var(--tw-gray-500);
+}
+
+/* Back link (top of article) */
+.article-back-top {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--tw-gray-500);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+.article-back-top:hover { color: var(--tw-black); }
+
+/* Article hero section */
+.article-hero {
+  padding: 100px 0 56px;
+  border-bottom: 1px solid var(--tw-gray-100);
+}
+
+.article-category {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--tw-orange);
+  margin-bottom: 20px;
+}
+
+.article-title {
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+.article-date {
+  display: block;
+  font-size: 13px;
+  color: var(--tw-gray-500);
+}
+
+/* Feature image */
+.article-feature-img {
+  width: 100%;
+  max-height: 520px;
+  overflow: hidden;
+  background: var(--tw-gray-100);
+}
+.article-feature-img img {
+  width: 100%;
+  height: 100%;
+  max-height: 520px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Article body */
+.article-body {
+  padding: 64px 0 96px;
+}
+
+.article-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.article-content p {
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--tw-gray-700);
+  margin-bottom: 28px;
+  word-break: keep-all;
+}
+
+.article-content p:last-child { margin-bottom: 0; }
+
+/* Footer nav (back + CTA) */
+.article-footer-nav {
+  max-width: 700px;
+  margin: 56px auto 0;
+  padding-top: 40px;
+  border-top: 1px solid var(--tw-gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.article-back-btn {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tw-gray-700);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.article-back-btn:hover { color: var(--tw-black); }
+
+@media (max-width: 768px) {
+  .article-hero { padding: 90px 0 40px; }
+  .article-body { padding: 48px 0 72px; }
+  .article-content p { font-size: 16px; }
+  .article-footer-nav { flex-direction: column; align-items: flex-start; }
+}

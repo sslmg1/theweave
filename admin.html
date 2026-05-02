@@ -487,6 +487,11 @@
     </div>
 
     <div class="form-group">
+      <label for="f-content">본문 <span style="font-weight:400;letter-spacing:0;">(빈 줄로 문단 구분)</span></label>
+      <textarea id="f-content" placeholder="본문 내용을 입력하세요.&#10;&#10;빈 줄을 하나 넣으면 새 문단으로 구분됩니다." style="min-height:200px;"></textarea>
+    </div>
+
+    <div class="form-group">
       <label for="f-slug">URL 슬러그 <span style="font-weight:400;letter-spacing:0;">(비워두면 자동 생성)</span></label>
       <input type="text" id="f-slug" placeholder="예: artist-interview-kim-mina">
     </div>
@@ -705,6 +710,7 @@ function openForm(article) {
   $('f-date').value      = article?.date       ?? todayStr();
   $('f-thumbnail').value = article?.thumbnail  ?? '';
   $('f-excerpt').value   = article?.excerpt   ?? '';
+  $('f-content').value   = article?.content   ?? '';
   $('f-slug').value      = article?.slug      ?? '';
   updateThumbPreview();
   $('modal-form').classList.add('is-open');
@@ -739,6 +745,7 @@ $('modal-save').addEventListener('click', async () => {
   const category  = $('f-category').value;
   const date      = $('f-date').value;
   const excerpt   = $('f-excerpt').value.trim();
+  const content   = $('f-content').value.trim();
   const thumbnail = $('f-thumbnail').value.trim();
   const slug      = $('f-slug').value.trim() || toSlug(title);
 
@@ -755,10 +762,10 @@ $('modal-save').addEventListener('click', async () => {
 
   if (editId !== null) {
     const idx = articles.findIndex(x => x.id === editId);
-    if (idx > -1) articles[idx] = { ...articles[idx], title, category, date, excerpt, slug, thumbnail };
+    if (idx > -1) articles[idx] = { ...articles[idx], title, category, date, excerpt, content, slug, thumbnail };
   } else {
     const newId = articles.length ? Math.max(...articles.map(x => x.id)) + 1 : 1;
-    articles.push({ id: newId, title, category, date, excerpt, slug, thumbnail });
+    articles.push({ id: newId, title, category, date, excerpt, content, slug, thumbnail });
   }
 
   try {
