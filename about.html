@@ -86,18 +86,48 @@
     <section class="story-section">
       <div class="container">
         <div class="story-inner">
+
+          <!-- 왼쪽: 텍스트 -->
           <div class="reveal">
             <span class="section-label">OUR STORY</span>
             <h2 class="section-title" style="margin-top:12px;">
               갤러리 현장에서<br>시작된 이야기
             </h2>
+            <p class="story-text">
+              17년간 갤러리 현장에서 작가와 컬렉터를 이어온 경험.<br>
+              그 안에서 발견한 미술 시장의 진짜 문제를 바탕으로<br>
+              더위브는 시작되었습니다.
+            </p>
           </div>
-          <div class="story-body reveal">
-            <p>&nbsp;</p>
+
+          <!-- 오른쪽: 인스타그램 피드 -->
+          <div class="story-instagram reveal">
+            <behold-widget feed-id="8dVT42lNH0df6jKzLkV0"></behold-widget>
+            <a href="https://www.instagram.com/theweave_official/"
+               class="story-instagram-link" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+              @theweave_official · 인스타그램에서 보기
+            </a>
           </div>
+
         </div>
       </div>
     </section>
+
+    <script>
+      (() => {
+        const d = document, s = d.createElement('script');
+        s.type = 'module';
+        s.src = 'https://w.behold.so/widget.js';
+        d.head.append(s);
+      })();
+    </script>
 
     <!-- ====================================================
          CORE VALUES
