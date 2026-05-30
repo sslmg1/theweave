@@ -204,73 +204,103 @@
     .catch(renderError);
 })();
 
-// Hero canvas: silk thread / weave animation
+// Hero canvas: kinetic typography background
 (function initHeroCanvas() {
   var canvas = document.getElementById('hero-canvas');
   if (!canvas || !canvas.getContext) return;
-
   var ctx = canvas.getContext('2d');
-  var W, H, strands, rafId;
+  var W, H, items, rafId, t = 0;
 
-  function buildStrands() {
-    var count = Math.max(14, Math.floor(W / 75));
-    strands = [];
-    for (var i = 0; i < count; i++) {
-      var isAccent = Math.random() < 0.2;
-      strands.push({
-        y0:     (i / count) * H * 1.3 - H * 0.15,
-        phase:  Math.random() * Math.PI * 2,
-        phase2: Math.random() * Math.PI * 2,
-        freq:   0.0018 + Math.random() * 0.0025,
-        freq2:  0.0038 + Math.random() * 0.003,
-        amp:    25 + Math.random() * 65,
-        drift:  (Math.random() - 0.5) * 0.012,
-        opacity: isAccent ? (0.25 + Math.random() * 0.15) : (0.08 + Math.random() * 0.1),
-        width:  0.5 + Math.random() * 1.3,
-        isAccent: isAccent
-      });
-    }
+  // Word pool — slogan + brand, three size tiers
+  var pool = [
+    { word: '예술이',   size: 'xl',  accent: false },
+    { word: '일상이',   size: 'xl',  accent: false },
+    { word: '되는',     size: 'lg',  accent: false },
+    { word: '순간',     size: 'xl',  accent: true  },
+    { word: 'THE',      size: 'lg',  accent: false },
+    { word: 'WEAVE',    size: 'xl',  accent: false },
+    { word: '예술',     size: 'md',  accent: false },
+    { word: '일상',     size: 'md',  accent: true  },
+    { word: '되는',     size: 'md',  accent: false },
+    { word: '순간',     size: 'md',  accent: false },
+    { word: 'ART',      size: 'lg',  accent: false },
+    { word: 'THEWEAVE', size: 'md',  accent: false },
+    { word: '예술이',   size: 'md',  accent: false },
+    { word: '일상이',   size: 'lg',  accent: false },
+    { word: 'WEAVE',    size: 'md',  accent: true  },
+    { word: '순간',     size: 'lg',  accent: false },
+  ];
+
+  function sizePx(tier) {
+    var base = Math.min(W, H);
+    if (tier === 'xl') return base * 0.22 + Math.random() * base * 0.12;
+    if (tier === 'lg') return base * 0.10 + Math.random() * base * 0.07;
+    return               base * 0.045 + Math.random() * base * 0.04;
+  }
+
+  function buildItems() {
+    items = pool.map(function (p) {
+      return {
+        word:    p.word,
+        size:    sizePx(p.size),
+        accent:  p.accent,
+        x:       Math.random() * W,
+        y:       Math.random() * H,
+        vx:      (Math.random() - 0.5) * 0.18,
+        vy:      (Math.random() - 0.5) * 0.14,
+        rot:     (Math.random() - 0.5) * 0.25,
+        opacity: p.accent
+                   ? 0.18 + Math.random() * 0.12
+                   : 0.06 + Math.random() * 0.09,
+        phase:   Math.random() * Math.PI * 2,
+      };
+    });
   }
 
   function resize() {
     var hero = canvas.parentElement;
-    W = canvas.width  = (canvas.offsetWidth  || (hero && hero.offsetWidth)  || window.innerWidth);
-    H = canvas.height = (canvas.offsetHeight || (hero && hero.offsetHeight) || window.innerHeight);
-    buildStrands();
+    W = canvas.width  = canvas.offsetWidth  || (hero && hero.offsetWidth)  || window.innerWidth;
+    H = canvas.height = canvas.offsetHeight || (hero && hero.offsetHeight) || window.innerHeight;
+    buildItems();
   }
-
-  var t = 0;
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    for (var i = 0; i < strands.length; i++) {
-      var s = strands[i];
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
 
-      s.y0 += s.drift;
-      if (s.y0 >  H + 60) s.y0 = -60;
-      if (s.y0 < -60)      s.y0 = H + 60;
+      item.x += item.vx;
+      item.y += item.vy;
+      if (item.x >  W + 600) item.x = -600;
+      if (item.x < -600)     item.x =  W + 600;
+      if (item.y >  H + 200) item.y = -200;
+      if (item.y < -200)     item.y =  H + 200;
 
-      var steps = Math.ceil(W / 3);
-      ctx.beginPath();
-      for (var j = 0; j <= steps; j++) {
-        var x = (j / steps) * W;
-        var y = s.y0
-          + Math.sin(x * s.freq  + t * 0.38 + s.phase)  * s.amp
-          + Math.sin(x * s.freq2 + t * 0.22 + s.phase2) * (s.amp * 0.32);
-        if (j === 0) ctx.moveTo(x, y);
-        else         ctx.lineTo(x, y);
-      }
+      var breath = 0.75 + 0.25 * Math.sin(t * 0.4 + item.phase);
+      var alpha  = item.opacity * breath;
 
-      ctx.strokeStyle = s.isAccent
-        ? 'rgba(232,114,42,' + s.opacity + ')'
-        : 'rgba(215,210,205,' + s.opacity + ')';
-      ctx.lineWidth = s.width;
-      ctx.stroke();
+      ctx.save();
+      ctx.translate(item.x, item.y);
+      ctx.rotate(item.rot);
+      ctx.font = '800 ' + Math.round(item.size) + 'px Pretendard, "Apple SD Gothic Neo", sans-serif';
+      ctx.fillStyle = item.accent
+        ? 'rgba(232,114,42,' + alpha + ')'
+        : 'rgba(255,255,255,' + alpha + ')';
+      ctx.fillText(item.word, 0, 0);
+      ctx.restore();
     }
 
-    t += 0.004;
+    t += 0.008;
     rafId = requestAnimationFrame(draw);
+  }
+
+  function start() {
+    requestAnimationFrame(function loop() {
+      resize();
+      if (W === 0 || H === 0) { requestAnimationFrame(loop); return; }
+      draw();
+    });
   }
 
   window.addEventListener('resize', function () {
@@ -279,12 +309,12 @@
     draw();
   });
 
-  // defer one frame so layout is computed before reading offsetWidth/Height
-  requestAnimationFrame(function startLoop() {
-    resize();
-    if (W === 0 || H === 0) { requestAnimationFrame(startLoop); return; }
-    draw();
-  });
+  // wait for Pretendard to load so text renders correctly
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(start);
+  } else {
+    start();
+  }
 })();
 
 // Contact form: Formspree submission
