@@ -250,8 +250,8 @@
         vy:      (Math.random() - 0.5) * 0.14,
         rot:     (Math.random() - 0.5) * 0.25,
         opacity: p.accent
-                   ? 0.18 + Math.random() * 0.12
-                   : 0.06 + Math.random() * 0.09,
+                   ? 0.45 + Math.random() * 0.2
+                   : 0.18 + Math.random() * 0.15,
         phase:   Math.random() * Math.PI * 2,
       };
     });
