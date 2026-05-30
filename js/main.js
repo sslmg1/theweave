@@ -204,6 +204,83 @@
     .catch(renderError);
 })();
 
+// Hero canvas: silk thread / weave animation
+(function initHeroCanvas() {
+  var canvas = document.getElementById('hero-canvas');
+  if (!canvas || !canvas.getContext) return;
+
+  var ctx = canvas.getContext('2d');
+  var W, H, strands, rafId;
+
+  function buildStrands() {
+    var count = Math.max(14, Math.floor(W / 75));
+    strands = [];
+    for (var i = 0; i < count; i++) {
+      var isAccent = Math.random() < 0.2;
+      strands.push({
+        y0:     (i / count) * H * 1.3 - H * 0.15,
+        phase:  Math.random() * Math.PI * 2,
+        phase2: Math.random() * Math.PI * 2,
+        freq:   0.0018 + Math.random() * 0.0025,
+        freq2:  0.0038 + Math.random() * 0.003,
+        amp:    25 + Math.random() * 65,
+        drift:  (Math.random() - 0.5) * 0.012,
+        opacity: isAccent ? (0.12 + Math.random() * 0.1) : (0.045 + Math.random() * 0.07),
+        width:  0.5 + Math.random() * 1.3,
+        isAccent: isAccent
+      });
+    }
+  }
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+    buildStrands();
+  }
+
+  var t = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (var i = 0; i < strands.length; i++) {
+      var s = strands[i];
+
+      s.y0 += s.drift;
+      if (s.y0 >  H + 60) s.y0 = -60;
+      if (s.y0 < -60)      s.y0 = H + 60;
+
+      var steps = Math.ceil(W / 3);
+      ctx.beginPath();
+      for (var j = 0; j <= steps; j++) {
+        var x = (j / steps) * W;
+        var y = s.y0
+          + Math.sin(x * s.freq  + t * 0.38 + s.phase)  * s.amp
+          + Math.sin(x * s.freq2 + t * 0.22 + s.phase2) * (s.amp * 0.32);
+        if (j === 0) ctx.moveTo(x, y);
+        else         ctx.lineTo(x, y);
+      }
+
+      ctx.strokeStyle = s.isAccent
+        ? 'rgba(232,114,42,' + s.opacity + ')'
+        : 'rgba(215,210,205,' + s.opacity + ')';
+      ctx.lineWidth = s.width;
+      ctx.stroke();
+    }
+
+    t += 0.004;
+    rafId = requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', function () {
+    cancelAnimationFrame(rafId);
+    resize();
+    draw();
+  });
+  draw();
+})();
+
 // Contact form: Formspree submission
 (function initContactForm() {
   var form = document.getElementById('contact-form');

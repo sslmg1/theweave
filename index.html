@@ -42,6 +42,7 @@
          HERO
          ==================================================== -->
     <section class="hero">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
       <div class="hero-inner container">
         <p class="hero-label">THEWEAVE 더위브</p>
         <h1 class="hero-title" style="font-size:clamp(32px,5.5vw,64px);white-space:nowrap;">
@@ -68,12 +69,31 @@
           <h2 class="section-title">작가와 예술을 잇는 이야기</h2>
           <p class="section-sub">작가 인터뷰, 전시 리뷰, 아트 라이프스타일</p>
         </div>
-        <div class="magazine-grid" id="magazine-grid">
-          <!-- JS로 data/magazine.json을 렌더링합니다 -->
+        <div class="magazine-instagram reveal">
+          <behold-widget feed-id="8dVT42lNH0df6jKzLkV0"></behold-widget>
+          <a href="https://www.instagram.com/theweave_official/"
+             class="magazine-instagram-link" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+            @theweave_official · 인스타그램에서 보기
+          </a>
         </div>
-        <div class="section-footer reveal">
-          <a href="#" class="btn btn-outline">더 보기</a>
-        </div>
+
+        <script>
+          (() => {
+            if (!document.querySelector('script[src="https://w.behold.so/widget.js"]')) {
+              const s = document.createElement('script');
+              s.type = 'module';
+              s.src = 'https://w.behold.so/widget.js';
+              document.head.append(s);
+            }
+          })();
+        </script>
       </div>
     </section>
 
@@ -98,9 +118,8 @@
                 <path d="M2 12l10 5 10-5"/>
               </svg>
             </div>
-            <span class="service-badge">출시 예정 (2026 하반기~)</span>
             <h3>아트너 ARTNER</h3>
-            <p>작품 관리, 홍보, 운송까지 — 독립 작가를 위한 원스톱 통합 서비스. 작가님은 작업에만 집중하세요.</p>
+            <p>취향 추천, 공간 매칭, 시세 분석까지 — 미술 입문자를 위한 AI 아트 컨설팅 파트너. 첫 한 점, Artner와 함께 시작하세요.</p>
             <a href="services.html#artner" class="service-card-link">
               자세히 보기
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -108,6 +127,7 @@
                 <polyline points="12 5 19 12 12 19"/>
               </svg>
             </a>
+            <span class="service-badge">출시 예정 (2026 하반기~)</span>
           </div>
 
           <!-- 작가 매니지먼트 -->
