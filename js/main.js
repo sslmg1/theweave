@@ -225,7 +225,7 @@
         freq2:  0.0038 + Math.random() * 0.003,
         amp:    25 + Math.random() * 65,
         drift:  (Math.random() - 0.5) * 0.012,
-        opacity: isAccent ? (0.12 + Math.random() * 0.1) : (0.045 + Math.random() * 0.07),
+        opacity: isAccent ? (0.25 + Math.random() * 0.15) : (0.08 + Math.random() * 0.1),
         width:  0.5 + Math.random() * 1.3,
         isAccent: isAccent
       });
@@ -233,8 +233,9 @@
   }
 
   function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
+    var hero = canvas.parentElement;
+    W = canvas.width  = (canvas.offsetWidth  || (hero && hero.offsetWidth)  || window.innerWidth);
+    H = canvas.height = (canvas.offsetHeight || (hero && hero.offsetHeight) || window.innerHeight);
     buildStrands();
   }
 
@@ -272,13 +273,18 @@
     rafId = requestAnimationFrame(draw);
   }
 
-  resize();
   window.addEventListener('resize', function () {
     cancelAnimationFrame(rafId);
     resize();
     draw();
   });
-  draw();
+
+  // defer one frame so layout is computed before reading offsetWidth/Height
+  requestAnimationFrame(function startLoop() {
+    resize();
+    if (W === 0 || H === 0) { requestAnimationFrame(startLoop); return; }
+    draw();
+  });
 })();
 
 // Contact form: Formspree submission
