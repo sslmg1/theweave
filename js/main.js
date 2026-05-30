@@ -204,55 +204,34 @@
     .catch(renderError);
 })();
 
-// Hero canvas: kinetic typography background
+// Hero canvas: editorial scrolling text rows
 (function initHeroCanvas() {
   var canvas = document.getElementById('hero-canvas');
   if (!canvas || !canvas.getContext) return;
   var ctx = canvas.getContext('2d');
-  var W, H, items, rafId, t = 0;
+  var W, H, rows, rafId;
 
-  // Word pool — slogan + brand, three size tiers
-  var pool = [
-    { word: '예술이',   size: 'xl',  accent: false },
-    { word: '일상이',   size: 'xl',  accent: false },
-    { word: '되는',     size: 'lg',  accent: false },
-    { word: '순간',     size: 'xl',  accent: true  },
-    { word: 'THE',      size: 'lg',  accent: false },
-    { word: 'WEAVE',    size: 'xl',  accent: false },
-    { word: '예술',     size: 'md',  accent: false },
-    { word: '일상',     size: 'md',  accent: true  },
-    { word: '되는',     size: 'md',  accent: false },
-    { word: '순간',     size: 'md',  accent: false },
-    { word: 'ART',      size: 'lg',  accent: false },
-    { word: 'THEWEAVE', size: 'md',  accent: false },
-    { word: '예술이',   size: 'md',  accent: false },
-    { word: '일상이',   size: 'lg',  accent: false },
-    { word: 'WEAVE',    size: 'md',  accent: true  },
-    { word: '순간',     size: 'lg',  accent: false },
+  // Each row scrolls horizontally — alternating directions, different speeds
+  var defs = [
+    { text: '예술이 일상이 되는 순간  —  ',  sizeRatio: 0.095, speed: 0.55, dir: -1, yRatio: 0.18, opacity: 0.13, accent: false, weight: '800' },
+    { text: 'THE WEAVE  ·  ART  ·  LIFE  ·  ', sizeRatio: 0.050, speed: 0.80, dir:  1, yRatio: 0.38, opacity: 0.09, accent: false, weight: '700' },
+    { text: '순간  —  예술  —  일상  —  WEAVE  —  ', sizeRatio: 0.075, speed: 0.35, dir: -1, yRatio: 0.58, opacity: 0.20, accent: true,  weight: '800' },
+    { text: 'THEWEAVE  더위브  예술이 일상이 되는 순간  ', sizeRatio: 0.038, speed: 1.10, dir:  1, yRatio: 0.76, opacity: 0.07, accent: false, weight: '600' },
+    { text: '되는 순간  ·  ART  ·  예술이  ·  일상이  ·  ', sizeRatio: 0.060, speed: 0.45, dir: -1, yRatio: 0.94, opacity: 0.10, accent: false, weight: '700' },
   ];
 
-  function sizePx(tier) {
-    var base = Math.min(W, H);
-    if (tier === 'xl') return base * 0.22 + Math.random() * base * 0.12;
-    if (tier === 'lg') return base * 0.10 + Math.random() * base * 0.07;
-    return               base * 0.045 + Math.random() * base * 0.04;
-  }
-
-  function buildItems() {
-    items = pool.map(function (p) {
+  function buildRows() {
+    rows = defs.map(function (d) {
       return {
-        word:    p.word,
-        size:    sizePx(p.size),
-        accent:  p.accent,
-        x:       Math.random() * W,
-        y:       Math.random() * H,
-        vx:      (Math.random() - 0.5) * 0.18,
-        vy:      (Math.random() - 0.5) * 0.14,
-        rot:     (Math.random() - 0.5) * 0.25,
-        opacity: p.accent
-                   ? 0.45 + Math.random() * 0.2
-                   : 0.18 + Math.random() * 0.15,
-        phase:   Math.random() * Math.PI * 2,
+        text:    d.text,
+        size:    Math.max(18, Math.round(Math.min(W, 1600) * d.sizeRatio)),
+        speed:   d.speed,
+        dir:     d.dir,
+        yRatio:  d.yRatio,
+        opacity: d.opacity,
+        accent:  d.accent,
+        weight:  d.weight,
+        x:       0,
       };
     });
   }
@@ -261,37 +240,36 @@
     var hero = canvas.parentElement;
     W = canvas.width  = canvas.offsetWidth  || (hero && hero.offsetWidth)  || window.innerWidth;
     H = canvas.height = canvas.offsetHeight || (hero && hero.offsetHeight) || window.innerHeight;
-    buildItems();
+    buildRows();
   }
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      ctx.font = row.weight + ' ' + row.size + 'px Pretendard, "Apple SD Gothic Neo", sans-serif';
 
-      item.x += item.vx;
-      item.y += item.vy;
-      if (item.x >  W + 600) item.x = -600;
-      if (item.x < -600)     item.x =  W + 600;
-      if (item.y >  H + 200) item.y = -200;
-      if (item.y < -200)     item.y =  H + 200;
+      var textW = ctx.measureText(row.text).width;
+      if (textW <= 0) continue;
 
-      var breath = 0.75 + 0.25 * Math.sin(t * 0.4 + item.phase);
-      var alpha  = item.opacity * breath;
+      row.x += row.speed;
+      if (row.x >= textW) row.x -= textW;
 
-      ctx.save();
-      ctx.translate(item.x, item.y);
-      ctx.rotate(item.rot);
-      ctx.font = '800 ' + Math.round(item.size) + 'px Pretendard, "Apple SD Gothic Neo", sans-serif';
-      ctx.fillStyle = item.accent
-        ? 'rgba(232,114,42,' + alpha + ')'
-        : 'rgba(255,255,255,' + alpha + ')';
-      ctx.fillText(item.word, 0, 0);
-      ctx.restore();
+      var startX = row.dir === -1 ? -row.x : (row.x - textW);
+      var y = H * row.yRatio;
+
+      ctx.fillStyle = row.accent
+        ? 'rgba(232,114,42,' + row.opacity + ')'
+        : 'rgba(255,255,255,' + row.opacity + ')';
+
+      var x = startX;
+      while (x < W + textW) {
+        ctx.fillText(row.text, x, y);
+        x += textW;
+      }
     }
 
-    t += 0.008;
     rafId = requestAnimationFrame(draw);
   }
 
@@ -309,7 +287,6 @@
     draw();
   });
 
-  // wait for Pretendard to load so text renders correctly
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(start);
   } else {
