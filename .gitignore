@@ -8,3 +8,11 @@ Thumbs.db
 # Editor
 .vscode/
 *.swp
+.gstack/
+
+.superpowers/
+.claude/
+artist/
+
+# Artist web images (keep local only)
+images/artists/
