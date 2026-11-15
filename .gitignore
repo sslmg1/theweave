@@ -8,3 +8,8 @@ Thumbs.db
 # Editor
 .vscode/
 *.swp
+.gstack/
+
+.superpowers/
+.claude/
+artist/
