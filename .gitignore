@@ -13,6 +13,3 @@ Thumbs.db
 .superpowers/
 .claude/
 artist/
-
-# Artist web images (keep local only)
-images/artists/
