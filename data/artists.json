@@ -40,14 +40,6 @@
       ],
       "cv": [
         {
-          "year": "2020",
-          "text": "서울과학기술대학교 일반대학원 도예학과 석사"
-        },
-        {
-          "year": "2018",
-          "text": "남서울대학교 환경조형학과 학사"
-        },
-        {
           "year": "2025–",
           "text": "서울과학기술대학교 강사"
         },
@@ -56,8 +48,16 @@
           "text": "제25회 신사임당 미술대전 입선"
         },
         {
+          "year": "2020",
+          "text": "서울과학기술대학교 일반대학원 도예학과 석사"
+        },
+        {
           "year": "2019",
           "text": "제25회 행주 미술·공예·디자인대전 장려상"
+        },
+        {
+          "year": "2018",
+          "text": "남서울대학교 환경조형학과 학사"
         },
         {
           "year": "2017",
@@ -69,26 +69,6 @@
         }
       ],
       "exhibitions": [
-        {
-          "year": "2022",
-          "title": "BTSO X 강민성",
-          "venue": "BTSO, 서울"
-        },
-        {
-          "year": "2021",
-          "title": "경계에 서다",
-          "venue": "살롱 드 네바에 갤러리"
-        },
-        {
-          "year": "2021",
-          "title": "도예 개인전",
-          "venue": "아티큘, 부산"
-        },
-        {
-          "year": "2020",
-          "title": "明",
-          "venue": "갤러리 인사아트스페이스, 서울"
-        },
         {
           "year": "2026",
           "title": "사물의 재구성",
@@ -116,8 +96,28 @@
         },
         {
           "year": "2022",
+          "title": "BTSO X 강민성",
+          "venue": "BTSO, 서울"
+        },
+        {
+          "year": "2022",
           "title": "TRANSCENDING TIME",
           "venue": "한 컬렉션, 런던"
+        },
+        {
+          "year": "2021",
+          "title": "경계에 서다",
+          "venue": "살롱 드 네바에 갤러리"
+        },
+        {
+          "year": "2021",
+          "title": "도예 개인전",
+          "venue": "아티큘, 부산"
+        },
+        {
+          "year": "2020",
+          "title": "明",
+          "venue": "갤러리 인사아트스페이스, 서울"
         }
       ],
       "promo": [],
@@ -183,14 +183,6 @@
           "text": "콘코디아대학교 회화 및 드로잉 석사, 몬트리올"
         },
         {
-          "year": "2017",
-          "text": "Angel Academy of Art 유화 기법 과정 수료, 피렌체"
-        },
-        {
-          "year": "2011",
-          "text": "콘코디아대학교 스튜디오아트 학사, 몬트리올"
-        },
-        {
           "year": "2026",
           "text": "예술 창작 지원금, 캐나다 예술위원회"
         },
@@ -201,6 +193,14 @@
         {
           "year": "2023",
           "text": "Vermont Studio Center 레지던시"
+        },
+        {
+          "year": "2017",
+          "text": "Angel Academy of Art 유화 기법 과정 수료, 피렌체"
+        },
+        {
+          "year": "2011",
+          "text": "콘코디아대학교 스튜디오아트 학사, 몬트리올"
         },
         {
           "year": "",
@@ -219,21 +219,6 @@
           "venue": "Art Souterrain 공공미술, 몬트리올"
         },
         {
-          "year": "2024",
-          "title": "Glitch Myth",
-          "venue": "Maison de la culture NDG, 몬트리올"
-        },
-        {
-          "year": "2023",
-          "title": "Woven Selves",
-          "venue": "Steve Turner, 로스앤젤레스"
-        },
-        {
-          "year": "2022",
-          "title": "Plusieurs rêves",
-          "venue": "LATITUDE Gallery, 뉴욕"
-        },
-        {
           "year": "2026",
           "title": "Pictura 트리엔날레",
           "venue": "Stewart Hall Art Gallery, 캐나다"
@@ -249,14 +234,29 @@
           "venue": "McBride Contemporain"
         },
         {
+          "year": "2025",
+          "title": "A Familiar Distance",
+          "venue": "Tian Contemporain, 몬트리올"
+        },
+        {
+          "year": "2024",
+          "title": "Glitch Myth",
+          "venue": "Maison de la culture NDG, 몬트리올"
+        },
+        {
           "year": "2024",
           "title": "KIAF",
           "venue": "Steve Turner Gallery, 서울"
         },
         {
-          "year": "2025",
-          "title": "A Familiar Distance",
-          "venue": "Tian Contemporain, 몬트리올"
+          "year": "2023",
+          "title": "Woven Selves",
+          "venue": "Steve Turner, 로스앤젤레스"
+        },
+        {
+          "year": "2022",
+          "title": "Plusieurs rêves",
+          "venue": "LATITUDE Gallery, 뉴욕"
         }
       ],
       "promo": [],
@@ -318,14 +318,6 @@
       ],
       "cv": [
         {
-          "year": "",
-          "text": "홍익대학교 일반대학원 도예유리과 석사"
-        },
-        {
-          "year": "",
-          "text": "단국대학교 도예학과 학사"
-        },
-        {
           "year": "2022",
           "text": "용인시 선정작가"
         },
@@ -340,6 +332,14 @@
         {
           "year": "2022",
           "text": "제42회 한국창작미술대전 공예부문 동상"
+        },
+        {
+          "year": "",
+          "text": "홍익대학교 일반대학원 도예유리과 석사"
+        },
+        {
+          "year": "",
+          "text": "단국대학교 도예학과 학사"
         }
       ],
       "exhibitions": [
@@ -354,6 +354,16 @@
           "venue": "이정갤러리, 서울"
         },
         {
+          "year": "2026",
+          "title": "사물의 재구성",
+          "venue": "N:NEWS ACC, 광주"
+        },
+        {
+          "year": "2026",
+          "title": "화랑미술제",
+          "venue": "서울"
+        },
+        {
           "year": "2025",
           "title": "숨의 질감",
           "venue": "신세계갤러리 강남, 서울"
@@ -362,16 +372,6 @@
           "year": "2025",
           "title": "Take a breath",
           "venue": "백룸갤러리, 서울"
-        },
-        {
-          "year": "2022",
-          "title": "TOGETHER:1",
-          "venue": "용인 선정작가 개인전"
-        },
-        {
-          "year": "2026",
-          "title": "사물의 재구성",
-          "venue": "N:NEWS ACC, 광주"
         },
         {
           "year": "2024",
@@ -384,14 +384,14 @@
           "venue": "548 갤러리, 뉴욕"
         },
         {
-          "year": "2026",
-          "title": "화랑미술제",
-          "venue": "서울"
-        },
-        {
           "year": "2024",
           "title": "FOCUS ART FAIR",
           "venue": "뉴욕"
+        },
+        {
+          "year": "2022",
+          "title": "TOGETHER:1",
+          "venue": "용인 선정작가 개인전"
         }
       ],
       "promo": [],
@@ -453,6 +453,14 @@
       ],
       "cv": [
         {
+          "year": "2018",
+          "text": "외교부 주최 '청년작가 한국의 아름다움' 한국화 공모전 수상"
+        },
+        {
+          "year": "2016",
+          "text": "국립생물자원관 자생 동·식물 세밀화 공모전 우수상"
+        },
+        {
           "year": "",
           "text": "서울대학교 동양화과 석사"
         },
@@ -463,14 +471,6 @@
         {
           "year": "",
           "text": "서울대학교 미술품보존연구센터 선임연구원 · 서울대학교 강사"
-        },
-        {
-          "year": "2018",
-          "text": "외교부 주최 '청년작가 한국의 아름다움' 한국화 공모전 수상"
-        },
-        {
-          "year": "2016",
-          "text": "국립생물자원관 자생 동·식물 세밀화 공모전 우수상"
         },
         {
           "year": "",
@@ -484,26 +484,6 @@
           "venue": "공갤러리, 서울"
         },
         {
-          "year": "2025",
-          "title": "백자기록",
-          "venue": "모리함전시관, 서울"
-        },
-        {
-          "year": "2024",
-          "title": "청운",
-          "venue": "옵스큐라, 서울"
-        },
-        {
-          "year": "2022",
-          "title": "연적(硯滴), 물들다",
-          "venue": "모리함전시관, 서울"
-        },
-        {
-          "year": "2020",
-          "title": "J에게",
-          "venue": "갤러리한옥, 서울"
-        },
-        {
           "year": "2026",
           "title": "사물의 재구성",
           "venue": "N:NEWS ACC, 광주"
@@ -514,9 +494,24 @@
           "venue": "이당미술관 / 스페이스458"
         },
         {
+          "year": "2025",
+          "title": "백자기록",
+          "venue": "모리함전시관, 서울"
+        },
+        {
+          "year": "2024",
+          "title": "청운",
+          "venue": "옵스큐라, 서울"
+        },
+        {
           "year": "2024",
           "title": "ACCESS BANGKOK",
           "venue": "방콕 (옵스큐라)"
+        },
+        {
+          "year": "2024",
+          "title": "더 프리뷰 성수",
+          "venue": "서울 (옵스큐라)"
         },
         {
           "year": "2023",
@@ -524,9 +519,14 @@
           "venue": "대구 (옵스큐라)"
         },
         {
-          "year": "2024",
-          "title": "더 프리뷰 성수",
-          "venue": "서울 (옵스큐라)"
+          "year": "2022",
+          "title": "연적(硯滴), 물들다",
+          "venue": "모리함전시관, 서울"
+        },
+        {
+          "year": "2020",
+          "title": "J에게",
+          "venue": "갤러리한옥, 서울"
         }
       ],
       "promo": [],

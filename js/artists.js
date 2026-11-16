@@ -173,8 +173,22 @@
     return parts.length ? parts.join(' · ') : '';
   }
 
+  function yearSortKey(year) {
+    var m = String(year || '').match(/(\d{4})/g);
+    if (!m || !m.length) return -1;
+    // Prefer the latest year in ranges like "2025–2026"
+    return Math.max.apply(null, m.map(Number));
+  }
+
+  function sortByYearDesc(items) {
+    return (items || []).slice().sort(function (a, b) {
+      return yearSortKey(b.year) - yearSortKey(a.year);
+    });
+  }
+
   function renderCvBlock(title, items, mapFn, downloadHref, downloadName) {
     if (!items || !items.length) return '';
+    var sorted = sortByYearDesc(items);
     var download = '';
     if (downloadHref) {
       var fname = downloadName || 'CV.pdf';
@@ -190,7 +204,7 @@
           download +
         '</div>' +
         '<ul class="artist-cv-list">' +
-          items.map(mapFn).join('') +
+          sorted.map(mapFn).join('') +
         '</ul>' +
       '</div>'
     );
