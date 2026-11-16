@@ -173,11 +173,22 @@
     return parts.length ? parts.join(' · ') : '';
   }
 
-  function renderCvBlock(title, items, mapFn) {
+  function renderCvBlock(title, items, mapFn, downloadHref, downloadName) {
     if (!items || !items.length) return '';
+    var download = '';
+    if (downloadHref) {
+      var fname = downloadName || 'CV.pdf';
+      download =
+        '<a class="artist-cv-download" href="' + esc(downloadHref) + '" download="' + esc(fname) + '">' +
+          'CV 다운로드 (PDF)' +
+        '</a>';
+    }
     return (
-      '<div style="margin-bottom:32px;">' +
-        '<h3 style="font-size:18px;font-weight:600;margin-bottom:12px;">' + esc(title) + '</h3>' +
+      '<div class="artist-cv-block">' +
+        '<div class="artist-cv-head">' +
+          '<h3 class="artist-cv-title">' + esc(title) + '</h3>' +
+          download +
+        '</div>' +
         '<ul class="artist-cv-list">' +
           items.map(mapFn).join('') +
         '</ul>' +
@@ -271,6 +282,7 @@
             '</section>';
         }
 
+        var cvFileName = (a.cvPdf || '').split('/').pop() || ((a.name || 'CV') + '_CV.pdf');
         var cvHtml = renderCvBlock('CV', a.cv, function (item) {
           return (
             '<li>' +
@@ -278,7 +290,7 @@
               '<span>' + esc(item.text || '') + '</span>' +
             '</li>'
           );
-        });
+        }, a.cvPdf, cvFileName);
         var exhHtml = renderCvBlock('Exhibitions', a.exhibitions, function (item) {
           var line = [item.title, item.venue].filter(Boolean).join(' — ');
           return (
