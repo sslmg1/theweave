@@ -34,10 +34,15 @@
     els.forEach(function (el) { obs.observe(el); });
   }
 
+  function displayName(a) {
+    return (a && (a.nameEn || a.name)) || '';
+  }
+
   function cardHtml(a, withOneLiner) {
     var href = 'artist.html?id=' + encodeURIComponent(a.id || a.slug);
+    var name = displayName(a);
     var img = a.heroImage
-      ? '<img src="' + esc(a.heroImage) + '" alt="' + esc(a.name) + '" loading="lazy">'
+      ? '<img src="' + esc(a.heroImage) + '" alt="' + esc(name) + '" loading="lazy">'
       : '';
     var one = (withOneLiner && a.oneLiner)
       ? '<p class="artist-card-oneliner">' + esc(a.oneLiner) + '</p>'
@@ -45,7 +50,7 @@
     return (
       '<a class="artist-card-link reveal" href="' + href + '">' +
         '<div class="artist-card-img">' + img + '</div>' +
-        '<h3 class="artist-card-name">' + esc(a.name) + '</h3>' +
+        '<h3 class="artist-card-name">' + esc(name) + '</h3>' +
         one +
       '</a>'
     );
@@ -64,7 +69,7 @@
   }
 
   function loadArtists() {
-    return fetch('./data/artists.json')
+    return fetch('./data/artists.json?v=heo-bio', { cache: 'no-store' })
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
@@ -186,22 +191,23 @@
     });
   }
 
-  function renderCvBlock(title, items, mapFn, downloadHref, downloadName) {
+  function renderCvDownload(href, downloadName) {
+    if (!href) return '';
+    var fname = downloadName || 'CV.pdf';
+    return (
+      '<a class="artist-cv-download" href="' + esc(href) + '" download="' + esc(fname) + '">' +
+        'CV 다운로드 (PDF)' +
+      '</a>'
+    );
+  }
+
+  function renderCvBlock(title, items, mapFn) {
     if (!items || !items.length) return '';
     var sorted = sortByYearDesc(items);
-    var download = '';
-    if (downloadHref) {
-      var fname = downloadName || 'CV.pdf';
-      download =
-        '<a class="artist-cv-download" href="' + esc(downloadHref) + '" download="' + esc(fname) + '">' +
-          'CV 다운로드 (PDF)' +
-        '</a>';
-    }
     return (
       '<div class="artist-cv-block">' +
         '<div class="artist-cv-head">' +
           '<h3 class="artist-cv-title">' + esc(title) + '</h3>' +
-          download +
         '</div>' +
         '<ul class="artist-cv-list">' +
           sorted.map(mapFn).join('') +
@@ -227,7 +233,7 @@
             '<span class="section-label">404</span>' +
             '<h1>작가를 찾을 수 없습니다</h1>' +
             '<p>요청하신 작가 페이지가 존재하지 않거나 비공개입니다.</p>' +
-            '<a href="artists.html" class="btn btn-primary" style="margin-top:32px;display:inline-flex;">Artist 목록으로</a>' +
+            '<a href="artists.html" class="btn btn-primary" style="margin-top:32px;display:inline-flex;">Artists 목록으로</a>' +
           '</div>' +
         '</div>';
     }
@@ -242,10 +248,11 @@
           return;
         }
 
-        document.title = a.name + ' — THEWEAVE 더위브';
+        var nameEn = displayName(a);
+        document.title = nameEn + ' — THEWEAVE 더위브';
         var metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
-          metaDesc.setAttribute('content', a.oneLiner || (a.name + ' — THEWEAVE Artist'));
+          metaDesc.setAttribute('content', a.oneLiner || (nameEn + ' — THEWEAVE Artists'));
         }
 
         var html = '';
@@ -253,19 +260,25 @@
         html +=
           '<section class="artist-hero">' +
             '<div class="container">' +
-              '<a href="artists.html" class="artist-back">← Artist</a>' +
-              '<h1 class="artist-hero-name">' + esc(a.name) + '</h1>' +
-              (a.nameEn ? '<p class="artist-hero-en">' + esc(a.nameEn) + '</p>' : '') +
-              (a.oneLiner ? '<p class="artist-hero-oneliner">' + esc(a.oneLiner) + '</p>' : '') +
+              '<a href="artists.html" class="artist-back">← Artists</a>' +
+              '<h1 class="artist-hero-name">' + esc(nameEn) + '</h1>' +
+              (a.name && a.nameEn && a.name !== a.nameEn
+                ? '<p class="artist-hero-en">' + esc(a.name) + '</p>'
+                : '') +
             '</div>' +
           '</section>';
 
-        if (a.bio) {
+        var cvFileName = (a.cvPdf || '').split('/').pop() || ((a.name || 'CV') + '_CV.pdf');
+        var cvDownload = renderCvDownload(a.cvPdf, cvFileName);
+
+        if (a.bio || cvDownload) {
           html +=
             '<section class="artist-section">' +
               '<div class="container">' +
-                '<span class="section-label">INTRO</span>' +
-                '<div class="artist-bio">' + renderParagraphs(a.bio) + '</div>' +
+                (a.bio ? '<div class="artist-bio">' + renderParagraphs(a.bio) + '</div>' : '') +
+                (cvDownload
+                  ? '<div class="artist-intro-foot">' + cvDownload + '</div>'
+                  : '') +
               '</div>' +
             '</section>';
         }
@@ -279,15 +292,22 @@
                   a.works.map(function (w) {
                     var meta = workMetaLine(w);
                     var alt = w.title || a.name;
+                    var caption = '';
+                    if (w.title || meta) {
+                      caption =
+                        '<figcaption class="artist-work-caption">' +
+                          (w.title ? '<span class="artist-work-title">' + esc(w.title) + '</span>' : '') +
+                          (meta ? '<span class="artist-work-meta">' + esc(meta) + '</span>' : '') +
+                        '</figcaption>';
+                    }
                     return (
-                      '<figure>' +
+                      '<figure class="artist-work">' +
                         '<button type="button" class="artist-work-img" data-lightbox-src="' + esc(w.image || '') + '" data-lightbox-alt="' + esc(alt) + '" aria-label="' + esc(alt) + ' 크게 보기">' +
                           (w.image
                             ? '<img src="' + esc(w.image) + '" alt="' + esc(alt) + '" loading="lazy">'
                             : '') +
                         '</button>' +
-                        (w.title ? '<figcaption class="artist-work-title">' + esc(w.title) + '</figcaption>' : '') +
-                        (meta ? '<p class="artist-work-meta">' + esc(meta) + '</p>' : '') +
+                        caption +
                       '</figure>'
                     );
                   }).join('') +
@@ -296,33 +316,33 @@
             '</section>';
         }
 
-        var cvFileName = (a.cvPdf || '').split('/').pop() || ((a.name || 'CV') + '_CV.pdf');
-        var cvHtml = renderCvBlock('CV', a.cv, function (item) {
-          return (
-            '<li>' +
-              '<span class="artist-cv-year">' + esc(item.year || '') + '</span>' +
-              '<span>' + esc(item.text || '') + '</span>' +
-            '</li>'
-          );
-        }, a.cvPdf, cvFileName);
-        var exhHtml = renderCvBlock('Exhibitions', a.exhibitions, function (item) {
-          var line = [item.title, item.venue].filter(Boolean).join(' — ');
-          return (
-            '<li>' +
-              '<span class="artist-cv-year">' + esc(item.year || '') + '</span>' +
-              '<span>' + esc(line) + '</span>' +
-            '</li>'
-          );
-        });
-        if (cvHtml || exhHtml) {
-          html +=
-            '<section class="artist-section">' +
-              '<div class="container">' +
-                '<span class="section-label">CV / EXHIBITIONS</span>' +
-                cvHtml + exhHtml +
-              '</div>' +
-            '</section>';
-        }
+        // Temporarily hidden: CV / EXHIBITIONS section
+        // var cvHtml = renderCvBlock('CV', a.cv, function (item) {
+        //   return (
+        //     '<li>' +
+        //       '<span class="artist-cv-year">' + esc(item.year || '') + '</span>' +
+        //       '<span>' + esc(item.text || '') + '</span>' +
+        //     '</li>'
+        //   );
+        // });
+        // var exhHtml = renderCvBlock('Exhibitions', a.exhibitions, function (item) {
+        //   var line = [item.title, item.venue].filter(Boolean).join(' — ');
+        //   return (
+        //     '<li>' +
+        //       '<span class="artist-cv-year">' + esc(item.year || '') + '</span>' +
+        //       '<span>' + esc(line) + '</span>' +
+        //     '</li>'
+        //   );
+        // });
+        // if (cvHtml || exhHtml) {
+        //   html +=
+        //     '<section class="artist-section">' +
+        //       '<div class="container">' +
+        //         '<span class="section-label">CV / EXHIBITIONS</span>' +
+        //         cvHtml + exhHtml +
+        //       '</div>' +
+        //     '</section>';
+        // }
 
         if (a.promo && a.promo.length) {
           html +=
@@ -366,7 +386,7 @@
               '<span class="section-label">ERROR</span>' +
               '<h1>콘텐츠를 불러올 수 없습니다</h1>' +
               '<p>잠시 후 다시 시도해 주세요.</p>' +
-              '<a href="artists.html" class="btn btn-primary" style="margin-top:32px;display:inline-flex;">Artist 목록으로</a>' +
+              '<a href="artists.html" class="btn btn-primary" style="margin-top:32px;display:inline-flex;">Artists 목록으로</a>' +
             '</div>' +
           '</div>';
       });
