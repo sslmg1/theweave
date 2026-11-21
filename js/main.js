@@ -102,23 +102,75 @@
   counters.forEach(function (el) { obs.observe(el); });
 })();
 
-// Hero parallax: subtle offset on scroll
-(function initHeroParallax() {
-  var inner = document.querySelector('.hero-inner');
-  if (!inner) return;
+// Hero background slider — 5.5s crossfade, hide copy on hero_2
+(function initHeroSlider() {
+  var hero = document.querySelector('.hero');
+  if (!hero) return;
 
-  var ticking = false;
-  window.addEventListener('scroll', function () {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(function () {
-      var sy = window.scrollY;
-      if (sy < window.innerHeight) {
-        inner.style.transform = 'translateY(' + (sy * 0.22) + 'px)';
-      }
-      ticking = false;
+  var slides = Array.prototype.slice.call(hero.querySelectorAll('.hero-slide'));
+  var dots = Array.prototype.slice.call(hero.querySelectorAll('.hero-dot'));
+  var content = hero.querySelector('.hero-content');
+  if (slides.length < 2) return;
+
+  var index = 0;
+  var interval = 5500;
+  var timer = null;
+
+  function goTo(next) {
+    var prev = index;
+    index = ((next % slides.length) + slides.length) % slides.length;
+    if (index === prev) return;
+
+    slides[prev].classList.remove('is-active');
+    slides[index].classList.add('is-active');
+
+    if (dots[prev]) {
+      dots[prev].classList.remove('is-active');
+      dots[prev].setAttribute('aria-selected', 'false');
+    }
+    if (dots[index]) {
+      dots[index].classList.add('is-active');
+      dots[index].setAttribute('aria-selected', 'true');
+    }
+
+    // hero_2: hide copy · hero_1: show copy
+    var hideCopy = slides[index].getAttribute('data-hero-copy') === 'hide';
+    hero.classList.toggle('is-slide-2', hideCopy);
+    if (content) content.classList.toggle('is-hidden', hideCopy);
+  }
+
+  function stop() {
+    if (!timer) return;
+    clearInterval(timer);
+    timer = null;
+  }
+
+  function start() {
+    stop();
+    timer = setInterval(function () {
+      goTo(index + 1);
+    }, interval);
+  }
+
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () {
+      goTo(i);
+      start();
     });
-  }, { passive: true });
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  // initial: first slide (hero_2) — copy hidden
+  (function syncCopy() {
+    var hideCopy = slides[index].getAttribute('data-hero-copy') === 'hide';
+    hero.classList.toggle('is-slide-2', hideCopy);
+    if (content) content.classList.toggle('is-hidden', hideCopy);
+  })();
+  start();
 })();
 
 // Magazine: fetch data/magazine.json and render cards

@@ -69,7 +69,7 @@
   }
 
   function loadArtists() {
-    return fetch('./data/artists.json?v=heo-bio', { cache: 'no-store' })
+    return fetch('./data/artists.json?v=nameen-1', { cache: 'no-store' })
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
@@ -275,10 +275,10 @@
           html +=
             '<section class="artist-section">' +
               '<div class="container">' +
-                (a.bio ? '<div class="artist-bio">' + renderParagraphs(a.bio) + '</div>' : '') +
                 (cvDownload
-                  ? '<div class="artist-intro-foot">' + cvDownload + '</div>'
+                  ? '<div class="artist-intro-head">' + cvDownload + '</div>'
                   : '') +
+                (a.bio ? '<div class="artist-bio">' + renderParagraphs(a.bio) + '</div>' : '') +
               '</div>' +
             '</section>';
         }

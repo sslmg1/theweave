@@ -13,7 +13,7 @@
   <!-- <meta property="og:image" content="https://TODO.theweave.co.kr/og-image.jpg"> -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260321j">
 </head>
 <body class="hero-page">
 
@@ -22,7 +22,7 @@
        ==================================================== -->
   <nav class="nav" id="nav">
     <div class="nav-inner container">
-      <a href="index.html" class="nav-logo">THEWEAVE</a>
+      <a href="index.html" class="nav-logo" aria-label="The Weave">The Weave</a>
       <button class="nav-hamburger" id="nav-hamburger"
               aria-label="메뉴 열기" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -42,7 +42,11 @@
     <!-- ====================================================
          HERO
          ==================================================== -->
-    <section class="hero">
+    <section class="hero" aria-roledescription="carousel" aria-label="메인 비주얼">
+      <div class="hero-slides" aria-live="off">
+        <div class="hero-slide is-active" style="background-image:url('images/main/hero_2.jpg')" data-hero-copy="hide" role="group" aria-roledescription="slide" aria-label="1 / 2"></div>
+        <div class="hero-slide" style="background-image:url('images/hero_1.webp')" data-hero-copy="show" role="group" aria-roledescription="slide" aria-label="2 / 2"></div>
+      </div>
 
       <div class="hero-content container">
         <p class="hero-label">THEWEAVE 더위브</p>
@@ -57,11 +61,15 @@
         </div>
       </div>
 
+      <div class="hero-dots" role="tablist" aria-label="슬라이드 선택">
+        <button type="button" class="hero-dot is-active" aria-label="슬라이드 1" aria-selected="true"></button>
+        <button type="button" class="hero-dot" aria-label="슬라이드 2" aria-selected="false"></button>
+      </div>
+
       <div class="hero-scroll-hint" aria-hidden="true">
         <span>Scroll</span>
         <div class="hero-scroll-line"></div>
       </div>
-
     </section>
 
     <!-- ====================================================
@@ -81,7 +89,7 @@
       <div class="container">
         <div class="section-header reveal">
           <span class="section-label">MAGAZINE</span>
-          <h2 class="section-title">작가와 예술을 잇는 이야기</h2>
+          <h2 class="section-title">일상과 예술을 잇는 이야기</h2>
           <p class="section-sub">작가 인터뷰, 전시 리뷰, 아트 라이프스타일</p>
         </div>
         <div class="magazine-instagram reveal">
@@ -237,8 +245,7 @@
         <div class="footer-brand">
           <p class="footer-brand-name">THEWEAVE</p>
           <p class="footer-brand-tagline">
-            예술이 일상이 되는 순간.<br>
-            작가와 갤러리를 위한 아트컴퍼니.
+            예술이 일상이 되는 순간.
           </p>
           <!-- TODO: SNS 링크 교체 필요 -->
           <div class="footer-social">
@@ -294,7 +301,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=20260321g"></script>
   <script src="js/artists.js"></script>
 </body>
 </html>
